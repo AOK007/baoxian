@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>保单查詢</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div class="panel panel-warning">
+        <div class="panel-heading " style="background: #d9534f; color: #ffffff">
+            <span class="glyphicon glyphicon-th-large" style="margin-right: 10px" />保单查詢
+        </div>
+    </div>
+	 <?php
+     $db = new MySQLi("localhost","root","123456","study");
+ $tj = "  1=1 ";
+ $name = "";
+ if(!empty($_POST["name"]))
+ {
+     $name = $_POST["name"];
+     $tj = " 工号 like '%{$name}%' ";    
+ }
+ $tj = " 工号 like'%{$name}%'";
+?>
+    <form>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="input-group  ">
+                    <!--<span class="input-group-addon">账号</span>-->
+                    <input type="text" name="username" class="form-control" maxlength="20" placeholder="请输入客户姓名" />
+					<input type="text" name="ywname" class="form-control" maxlength="20" placeholder="请输入业务员姓名" />
+                    <input type="submit" value="查询" />
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+	
+    <table width="100%" border="1" cellpadding="0" cellspacing="0">
+    <tr>
+<td>姓名</td>
+<td>年龄</td>
+<td>身份证号码</td>
+<td>手机号</td>
+<td>扣款银行</td>
+<td>扣款账号</td>
+<td>客户生肖</td>
+<td>到账银行</td>
+<td>到账账号</td>
+<td>性别</td>
+<td>保单号</td>
+<td>生肖日期</td>
+<td>提交日期</td>
+<td>业务员</td>
+<td>资诉人员</td>
+<td>资诉工号</td>
+<td>资诉电话</td>
+<td>保单内容</td>
+<td>进度</td>
+</tr>
+    <div class="panel panel-warning">
+        <div class="panel-body">
+            <div class="text-center" style="background: #FFF; margin-top: 10px">
+                <a href="chaxun.html">
+                    <button type="button" class="btn btn-success" style="width: 100%">
+                        <span class="chaxun glyphicon-home" style="margin-right: 10px" />返回首頁</button>
+                </a>
+            </div>
+        </div>
+    </div>
+	<?php
+     //$db = new MySQLi("localhost","root","123456","study");移到上面了是一样的
+     //写SQL语句
+     $sql = "SELECT * FROM `员工信息` where {$tj}";//拼成一个完整的SQL语句
+     $result = $db->query($sql);
+     $attr = $result->fetch_all();
+     foreach($attr as $v)
+     {
+         $v[1];
+         $str = str_replace($name,"<span style='color:red'>{$name}</span>",$v[1]); 
+         echo "<tr>
+         <td>{$v[0]}</td>
+         <td>{$str}</td>
+         <td>{$v[2]}</td>
+         <td>{$v[3]}</td>
+         <td>{$v[4]}</td>
+         <td>{$v[5]}</td>
+<td>{$v[6]}</td>
+         <td>{$v[7]}</td>
+         <td>{$v[8]}</td>
+         <td>{$v[9]}</td>
+     </tr>";    
+}
+?>
+ </table>
+ </body>
+ </html>
+
+</body>
+</html>
